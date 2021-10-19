@@ -11,6 +11,9 @@ const NuevaCuenta = () => {
       email: "",
       password: "",
     },
+    validationSchema: Yup.object({
+      nombre: Yup.string().required("El nombre de usuario es Obligatorio"),
+    }),
     onSubmit: (valores) => {
       console.log("guayando");
       console.log(valores);
@@ -41,8 +44,15 @@ const NuevaCuenta = () => {
                   placeholder="Nombre Usuario"
                   value={formik.values.nombre}
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                 />
               </div>
+              { formik.touched.nombre && formik.errors.nombre ? (
+                <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                  <p className="font-bold">Error</p>
+                  <p>{formik.errors.nombre}</p>
+                </div>
+              ) : null}
               <div className="mb-4">
                 <label
                   className="block text-gray-700 text-sm font-bold mb-2"
@@ -52,8 +62,8 @@ const NuevaCuenta = () => {
                 </label>
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
-                  id="apeliido"
-                  type="apellido"
+                  id="apellido"
+                  type="text"
                   placeholder="Apellido Usuario"
                   value={formik.values.apellido}
                   onChange={formik.handleChange}
