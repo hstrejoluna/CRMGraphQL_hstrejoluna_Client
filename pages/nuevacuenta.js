@@ -97,7 +97,7 @@ const NuevaCuenta = () => {
       <p className="font-bold">{formik.errors.password}</p>
     </div>
   );
-  const monstrarMensaje = () => {
+  const mostrarMensaje = () => {
     return (
       <div className="bg-white animate-pulse py-2 px-3 w-full my-3 max-w-sm text-center mx-auto">
         <p>{mensaje}</p>
@@ -108,7 +108,7 @@ const NuevaCuenta = () => {
   return (
     <>
       <Layout>
-        {mensaje && monstrarMensaje()}
+        {mensaje && mostrarMensaje()}
         <h1 className="text-center text-2xl text-white font-light">
           Crear Nueva Cuenta
         </h1>

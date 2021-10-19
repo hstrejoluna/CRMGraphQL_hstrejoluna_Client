@@ -1,7 +1,9 @@
+import { useState } from "react";
 import Layout from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { gql, useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
 
 const AUTENTICAR_USUARIO = gql`
   mutation autenticarUsuario($input: AutenticarInput) {
@@ -12,6 +14,9 @@ const AUTENTICAR_USUARIO = gql`
 `;
 
 const Login = () => {
+  // routing
+  const router = useRouter();
+  const [mensaje, guardarMensaje] = useState(null);
   // Mutation para crear nuevos usuarios en apollo
   const [autenticarUsuario] = useMutation(AUTENTICAR_USUARIO);
 
@@ -38,12 +43,35 @@ const Login = () => {
             },
           },
         });
-        console.log(data);
+        guardarMensaje("Autenticando...");
+
+        // Guardar el token en localStorage
+        const { token } = data.autenticarUsuario;
+        localStorage.setItem("token", token);
+
+        // Redireccionar hacia clientes
+
+        setTimeout(() => {
+          guardarMensaje(null);
+          router.push("/");
+        }, 1200);
       } catch (error) {
-        console.log(error);
+        guardarMensaje(error.message.replace("GraphQL error:", ""));
+
+        setTimeout(() => {
+          guardarMensaje(null);
+        }, 3000);
       }
     },
   });
+
+  const mostrarMensaje = () => {
+    return (
+      <div className="bg-white animate-pulse py-2 px-3 w-full my-3 max-w-sm text-center mx-auto">
+        <p>{mensaje}</p>
+      </div>
+    );
+  };
 
   const errorEmail = formik.touched.email && formik.errors.email && (
     <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
@@ -62,6 +90,7 @@ const Login = () => {
       <Layout>
         <h1 className="text-center text-2xl text-white font-light">Login</h1>
 
+        {mensaje && mostrarMensaje()}
         <div className="flex justify-center mt-5">
           <div className="w-full max-w-sm">
             <form
