@@ -18,9 +18,12 @@ const Layout = ({ children }) => {
           rel="stylesheet"
         />
       </Head>
-
-      <Sidebar />
-      {children}
+      <div className="bg-gray-200 min-h-screen">
+        <div className="flex min-h-screen">
+          <Sidebar />
+          {children}
+        </div>
+      </div>
     </>
   );
 };
