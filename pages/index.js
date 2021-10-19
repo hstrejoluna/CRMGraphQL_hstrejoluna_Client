@@ -1,11 +1,9 @@
 import Layout from "../components/Layout";
 
-
-
 const Index = () => (
   <div>
     <Layout>
-      <h2>Desde Index</h2>
+      <h1 className="text-2xl text-gray-800">Desde Index</h1>
     </Layout>
   </div>
 );
