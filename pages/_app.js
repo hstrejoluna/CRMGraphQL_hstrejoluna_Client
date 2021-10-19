@@ -1,7 +1,12 @@
-const MyApp = ({ Component, pageProps }) => {
-  console.log("Desde _app.js");
+import { ApolloProvider } from "@apollo/client";
+import client from "../config/apollo";
 
-  return <Component {...pageProps} />;
+const MyApp = ({ Component, pageProps }) => {
+  return (
+    <ApolloProvider client={client}>
+      <Component {...pageProps} />
+    </ApolloProvider>
+  );
 };
 
 export default MyApp;
