@@ -1,6 +1,22 @@
 import Layout from "../components/Layout";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const NuevaCuenta = () => {
+  // Validación del formulario
+  const formik = useFormik({
+    initialValues: {
+      nombre: "",
+      apellido: "",
+      email: "",
+      password: "",
+    },
+    onSubmit: (valores) => {
+      console.log("guayando");
+      console.log(valores);
+    },
+  });
+
   return (
     <>
       <Layout>
@@ -23,6 +39,8 @@ const NuevaCuenta = () => {
                   id="nombre"
                   type="nombre"
                   placeholder="Nombre Usuario"
+                  value={formik.values.nombre}
+                  onChange={formik.handleChange}
                 />
               </div>
               <div className="mb-4">
@@ -37,6 +55,8 @@ const NuevaCuenta = () => {
                   id="apeliido"
                   type="apellido"
                   placeholder="Apellido Usuario"
+                  value={formik.values.apellido}
+                  onChange={formik.handleChange}
                 />
               </div>
               <div className="mb-4">
@@ -51,6 +71,8 @@ const NuevaCuenta = () => {
                   id="email"
                   type="email"
                   placeholder="Email Usuario"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
                 />
               </div>
               <div className="mb-4">
@@ -65,6 +87,8 @@ const NuevaCuenta = () => {
                   id="password"
                   type="password"
                   placeholder="Password Usuario"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
                 />
               </div>
 
