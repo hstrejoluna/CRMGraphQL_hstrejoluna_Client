@@ -48,6 +48,7 @@ const Index = () => {
               <th className="w-1/5 py-2 px-4">Nombre</th>
               <th className="w-1/5 py-2 px-4">Empresa</th>
               <th className="w-1/5 py-2 px-4">Email</th>
+              <th className="w-1/5 py-2 px-4">Eliminar</th>
             </tr>
           </thead>
           <tbody className="bg-white">
