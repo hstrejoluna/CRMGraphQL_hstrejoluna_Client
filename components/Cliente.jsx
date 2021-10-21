@@ -2,7 +2,7 @@ import Link from "next/link";
 const Cliente = ({ cliente }) => {
   const { nombre, apellido, empresa, email, telefono, id } = cliente;
   return (
-    <tr className=" hover:bg-gray-100 cursor-pointer focus:outline-black">
+    <tr className=" hover:bg-gray-100">
       <td className="border px-4 py-2 ">
         {nombre} {apellido}{" "}
         <Link href={"tel:" + telefono}>
