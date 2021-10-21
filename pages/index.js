@@ -1,4 +1,4 @@
-import Head from "next/head";
+import Cliente from "../components/Cliente";
 import Layout from "../components/Layout";
 import { gql, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
@@ -51,13 +51,7 @@ const Index = () => {
           </thead>
           <tbody className="bg-white">
             {data.obtenerClientesVendedor.map((cliente) => (
-              <tr key={cliente.id}>
-                <td className="border px-4 py-2">
-                  {cliente.nombre} {cliente.apellido}
-                </td>
-                <td className="border px-4 py-2">{cliente.empresa}</td>
-                <td className="border px-4 py-2">{cliente.email}</td>
-              </tr>
+              <Cliente key={cliente.id} cliente={cliente} />
             ))}
           </tbody>
         </table>
