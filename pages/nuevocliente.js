@@ -1,6 +1,53 @@
 import Layout from "../components/Layout";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const NuevoCliente = () => {
+  const formik = useFormik({
+    initialValues: {
+      nombre: "",
+      apellido: "",
+      empresa: "",
+      email: "",
+      telefono: "",
+    },
+    validationSchema: Yup.object({
+      nombre: Yup.string().required("El nombre del cliente es obligatorio"),
+      apellido: Yup.string().required("El apellido del cliente es obligatorio"),
+      empresa: Yup.string().required("La empresa del cliente es obligatoria"),
+      email: Yup.string()
+        .email("Email no válido")
+        .required("El email del cliente es obligatorio"),
+    }),
+    onSubmit: (valores) => {
+      console.log(valores);
+    },
+  });
+
+  const errorNombre = formik.touched.nombre && formik.errors.nombre && (
+    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+      <p className="font-bold">{formik.errors.nombre}</p>
+    </div>
+  );
+
+  const errorApellido = formik.touched.apellido && formik.errors.apellido && (
+    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+      <p className="font-bold">{formik.errors.apellido}</p>
+    </div>
+  );
+
+  const errorEmpresa = formik.touched.empresa && formik.errors.empresa && (
+    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+      <p className="font-bold">{formik.errors.empresa}</p>
+    </div>
+  );
+
+  const errorEmail = formik.touched.email && formik.errors.email && (
+    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+      <p className="font-bold">{formik.errors.email}</p>
+    </div>
+  );
+
   return (
     <Layout>
       <h1 className="text-2xl text-gray-800">Nuevo Cliente</h1>
@@ -19,7 +66,11 @@ const NuevoCliente = () => {
                 id="nombre"
                 type="text"
                 placeholder="Nombre Cliente"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.nombre}
               />
+              {errorNombre}
             </div>
             <div className="mb-4">
               <label
@@ -33,8 +84,12 @@ const NuevoCliente = () => {
                 id="apellido"
                 type="text"
                 placeholder="Apellido Cliente"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.apellido}
               />
             </div>
+            {errorApellido}
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -47,8 +102,12 @@ const NuevoCliente = () => {
                 id="empresa"
                 type="text"
                 placeholder="Empresa Cliente"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.empresa}
               />
             </div>
+            {errorEmpresa}
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -61,8 +120,12 @@ const NuevoCliente = () => {
                 id="email"
                 type="email"
                 placeholder="Email Cliente"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
               />
             </div>
+            {errorEmail}
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -75,6 +138,9 @@ const NuevoCliente = () => {
                 id="telefono"
                 type="tel"
                 placeholder="Teléfono Cliente"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.telefono}
               />
             </div>
 
