@@ -39,38 +39,22 @@ const EditarCliente = () => {
       .required("El email del cliente es obligatorio"),
   });
 
-  const errorNombre = props.touched.nombre && props.errors.nombre && (
-    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
-      <p className="font-bold">{formik.errors.nombre}</p>
-    </div>
-  );
-
-  const errorApellido = props.touched.apellido && props.errors.apellido && (
-    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
-      <p className="font-bold">{formik.errors.apellido}</p>
-    </div>
-  );
-
-  const errorEmpresa = props.touched.empresa && props.errors.empresa && (
-    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
-      <p className="font-bold">{props.errors.empresa}</p>
-    </div>
-  );
-
-  const errorEmail = props.touched.email && props.errors.email && (
-    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
-      <p className="font-bold">{props.errors.email}</p>
-    </div>
-  );
+  const { obtenerCliente } = data;
 
   if (loading) return "Cargando...";
+
+  
 
   return (
     <Layout>
       <h1 className="text-2xl text-gray-800">Editar Cliente</h1>
       <div className="flex justify-center mt-5">
         <div className="w-full max-w-lg">
-          <Formik validationSchema={schemaValidacion}>
+          <Formik
+            validationSchema={schemaValidacion}
+            enableReinitialize
+            initialValues={obtenerCliente}
+          >
             {(props) => {
               return (
                 <form
@@ -93,7 +77,11 @@ const EditarCliente = () => {
                       onBlur={props.handleBlur}
                       value={props.values.nombre}
                     />
-                    {errorNombre}
+                    {props.touched.nombre && props.errors.nombre && (
+                      <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                        <p className="font-bold">{props.errors.nombre}</p>
+                      </div>
+                    )}
                   </div>
                   <div className="mb-4">
                     <label
@@ -170,7 +158,7 @@ const EditarCliente = () => {
                   <input
                     type="submit"
                     className="bg-gray-800 w-full mt-5 p-2 text-white uppercase font-bold hover:bg-gray-900 cursor-pointer"
-                    value="Registrar Cliente"
+                    value="Editar Cliente"
                   />
                 </form>
               );
