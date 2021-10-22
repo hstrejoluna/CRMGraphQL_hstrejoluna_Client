@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import { useQuery, gql } from "@apollo/client";
+import * as Yup from "yup";
 import { Formik } from "formik";
 
 const OBTENER_CLIENTE = gql`
@@ -28,6 +29,40 @@ const EditarCliente = () => {
     },
   });
 
+  // Schema de validacion
+  const schemaValidacion = Yup.object({
+    nombre: Yup.string().required("El nombre del cliente es obligatorio"),
+    apellido: Yup.string().required("E l apellido del cliente es obligatorio"),
+    empresa: Yup.string().required("La empresa del cliente es obligatoria"),
+    email: Yup.string()
+      .email("Email no válido")
+      .required("El email del cliente es obligatorio"),
+  });
+
+  const errorNombre = props.touched.nombre && props.errors.nombre && (
+    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+      <p className="font-bold">{formik.errors.nombre}</p>
+    </div>
+  );
+
+  const errorApellido = props.touched.apellido && props.errors.apellido && (
+    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+      <p className="font-bold">{formik.errors.apellido}</p>
+    </div>
+  );
+
+  const errorEmpresa = props.touched.empresa && props.errors.empresa && (
+    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+      <p className="font-bold">{props.errors.empresa}</p>
+    </div>
+  );
+
+  const errorEmail = props.touched.email && props.errors.email && (
+    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+      <p className="font-bold">{props.errors.email}</p>
+    </div>
+  );
+
   if (loading) return "Cargando...";
 
   return (
@@ -35,7 +70,7 @@ const EditarCliente = () => {
       <h1 className="text-2xl text-gray-800">Editar Cliente</h1>
       <div className="flex justify-center mt-5">
         <div className="w-full max-w-lg">
-          <Formik>
+          <Formik validationSchema={schemaValidacion}>
             {(props) => {
               return (
                 <form
