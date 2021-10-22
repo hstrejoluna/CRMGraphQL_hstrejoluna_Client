@@ -35,6 +35,7 @@ const NuevoCliente = () => {
 
   // Mensaje de alerta
   const [mensaje, guardarMensaje] = useState(null);
+
   // Mutation para crear nuevos clientes
   const [nuevoCliente] = useMutation(NUEVO_CLIENTE, {
     update(cache, { data: { nuevoCliente } }) {
@@ -84,7 +85,13 @@ const NuevoCliente = () => {
             },
           },
         });
-        router.push("/");
+        guardarMensaje(
+          `El cliente ${data.nuevoCliente.nombre} se agrego con exito`
+        );
+        setTimeout(() => {
+          guardarMensaje(null);
+          router.push("/");
+        }, 2000);
       } catch (error) {
         guardarMensaje(error.message.replace("GraphQL error: ", ""));
 

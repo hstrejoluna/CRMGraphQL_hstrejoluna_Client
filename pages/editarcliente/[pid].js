@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
-import { useQuery, gql } from "@apollo/client";
-import * as Yup from "yup";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import { Formik } from "formik";
+import * as Yup from "yup";
 
 const OBTENER_CLIENTE = gql`
   query obtenerCliente($id: ID!) {
@@ -16,18 +16,31 @@ const OBTENER_CLIENTE = gql`
   }
 `;
 
+const ACTUALIZAR_CLIENTE = gql`
+  mutation actualizarCliente($id: ID!, $input: ClienteInput) {
+    actualizarCliente(id: $id, input: $input) {
+      nombre
+      email
+    }
+  }
+`;
+
 const EditarCliente = () => {
-  // obtener el ID actual
+  // Obtener el ID Actual
   const router = useRouter();
   const {
     query: { id },
   } = router;
 
+  // Consultar para obtener el cliente
   const { data, loading, error } = useQuery(OBTENER_CLIENTE, {
     variables: {
       id,
     },
   });
+
+  // Actualizar el cliente
+  const [actualizarCliente] = useMutation(ACTUALIZAR_CLIENTE);
 
   // Schema de validacion
   const schemaValidacion = Yup.object({
@@ -39,11 +52,14 @@ const EditarCliente = () => {
       .required("El email del cliente es obligatorio"),
   });
 
-  const { obtenerCliente } = data;
-
   if (loading) return "Cargando...";
 
-  
+  const { obtenerCliente } = data;
+
+  // Modifica el cliente en la BD
+  const actualizarInfoCliente = async (valores) => {
+    const { nombre, apellido, empresa, email, telefono } = valores;
+  };
 
   return (
     <Layout>
@@ -54,6 +70,9 @@ const EditarCliente = () => {
             validationSchema={schemaValidacion}
             enableReinitialize
             initialValues={obtenerCliente}
+            onSubmit={(valores) => {
+              actualizarInfoCliente(valores);
+            }}
           >
             {(props) => {
               return (
