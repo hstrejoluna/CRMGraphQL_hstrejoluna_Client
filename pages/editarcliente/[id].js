@@ -1,8 +1,10 @@
+import React from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
 import { useQuery, gql, useMutation } from "@apollo/client";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import Swal from "sweetalert2";
 
 const OBTENER_CLIENTE = gql`
   query obtenerCliente($id: ID!) {
@@ -26,18 +28,21 @@ const ACTUALIZAR_CLIENTE = gql`
 `;
 
 const EditarCliente = () => {
-  // Obtener el ID Actual
+  // obtener el ID actual
   const router = useRouter();
   const {
     query: { id },
   } = router;
 
+ 
   // Consultar para obtener el cliente
+
   const { data, loading, error } = useQuery(OBTENER_CLIENTE, {
     variables: {
-      id,
+      id
     },
   });
+
 
   // Actualizar el cliente
   const [actualizarCliente] = useMutation(ACTUALIZAR_CLIENTE);
@@ -45,8 +50,8 @@ const EditarCliente = () => {
   // Schema de validacion
   const schemaValidacion = Yup.object({
     nombre: Yup.string().required("El nombre del cliente es obligatorio"),
-    apellido: Yup.string().required("E l apellido del cliente es obligatorio"),
-    empresa: Yup.string().required("La empresa del cliente es obligatoria"),
+    apellido: Yup.string().required("El apellido del cliente es obligatorio"),
+    empresa: Yup.string().required("El campo empresa  es obligatorio"),
     email: Yup.string()
       .email("Email no válido")
       .required("El email del cliente es obligatorio"),
@@ -54,16 +59,48 @@ const EditarCliente = () => {
 
   if (loading) return "Cargando...";
 
-  const { obtenerCliente } = data;
+  // console.log(data.obtenerCliente)
+
+  const { obtenerCliente } = data; 
 
   // Modifica el cliente en la BD
   const actualizarInfoCliente = async (valores) => {
     const { nombre, apellido, empresa, email, telefono } = valores;
+
+    try {
+      const { data } = await actualizarCliente({
+        variables: {
+          id,
+          input: {
+            nombre,
+            apellido,
+            empresa,
+            email,
+            telefono,
+          },
+        },
+      });
+
+      // console.log(data);
+
+      // Mostrar Alerta
+      Swal.fire(
+        "Actualizado",
+        "El cliente se actualizó correctamente",
+        "success"
+      );
+
+      // Redireccionar
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <Layout>
-      <h1 className="text-2xl text-gray-800">Editar Cliente</h1>
+      <h1 className="text-2xl text-gray-800 font-light">Editar Cliente</h1>
+
       <div className="flex justify-center mt-5">
         <div className="w-full max-w-lg">
           <Formik
@@ -75,6 +112,7 @@ const EditarCliente = () => {
             }}
           >
             {(props) => {
+              // console.log(props);
               return (
                 <form
                   className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
@@ -87,8 +125,9 @@ const EditarCliente = () => {
                     >
                       Nombre
                     </label>
+
                     <input
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       id="nombre"
                       type="text"
                       placeholder="Nombre Cliente"
@@ -96,12 +135,15 @@ const EditarCliente = () => {
                       onBlur={props.handleBlur}
                       value={props.values.nombre}
                     />
-                    {props.touched.nombre && props.errors.nombre && (
-                      <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
-                        <p className="font-bold">{props.errors.nombre}</p>
-                      </div>
-                    )}
                   </div>
+
+                  {props.touched.nombre && props.errors.nombre ? (
+                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                      <p className="font-bold">Error</p>
+                      <p>{props.errors.nombre}</p>
+                    </div>
+                  ) : null}
+
                   <div className="mb-4">
                     <label
                       className="block text-gray-700 text-sm font-bold mb-2"
@@ -109,8 +151,9 @@ const EditarCliente = () => {
                     >
                       Apellido
                     </label>
+
                     <input
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       id="apellido"
                       type="text"
                       placeholder="Apellido Cliente"
@@ -119,7 +162,14 @@ const EditarCliente = () => {
                       value={props.values.apellido}
                     />
                   </div>
-                  {errorApellido}
+
+                  {props.touched.apellido && props.errors.apellido ? (
+                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                      <p className="font-bold">Error</p>
+                      <p>{props.errors.apellido}</p>
+                    </div>
+                  ) : null}
+
                   <div className="mb-4">
                     <label
                       className="block text-gray-700 text-sm font-bold mb-2"
@@ -127,8 +177,9 @@ const EditarCliente = () => {
                     >
                       Empresa
                     </label>
+
                     <input
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       id="empresa"
                       type="text"
                       placeholder="Empresa Cliente"
@@ -137,7 +188,14 @@ const EditarCliente = () => {
                       value={props.values.empresa}
                     />
                   </div>
-                  {errorEmpresa}
+
+                  {props.touched.empresa && props.errors.empresa ? (
+                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                      <p className="font-bold">Error</p>
+                      <p>{props.errors.empresa}</p>
+                    </div>
+                  ) : null}
+
                   <div className="mb-4">
                     <label
                       className="block text-gray-700 text-sm font-bold mb-2"
@@ -145,8 +203,9 @@ const EditarCliente = () => {
                     >
                       Email
                     </label>
+
                     <input
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       id="email"
                       type="email"
                       placeholder="Email Cliente"
@@ -155,7 +214,14 @@ const EditarCliente = () => {
                       value={props.values.email}
                     />
                   </div>
-                  {errorEmail}
+
+                  {props.touched.email && props.errors.email ? (
+                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                      <p className="font-bold">Error</p>
+                      <p>{props.errors.email}</p>
+                    </div>
+                  ) : null}
+
                   <div className="mb-4">
                     <label
                       className="block text-gray-700 text-sm font-bold mb-2"
@@ -163,8 +229,9 @@ const EditarCliente = () => {
                     >
                       Teléfono
                     </label>
+
                     <input
-                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       id="telefono"
                       type="tel"
                       placeholder="Teléfono Cliente"
@@ -183,6 +250,7 @@ const EditarCliente = () => {
               );
             }}
           </Formik>
+           
         </div>
       </div>
     </Layout>

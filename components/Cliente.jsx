@@ -44,6 +44,7 @@ const Cliente = ({ cliente }) => {
   });
   const { nombre, apellido, empresa, email, telefono, id } = cliente;
 
+
   //Eliminar Cliente
   const confirmarEliminarCliente = () => {
     Swal.fire({

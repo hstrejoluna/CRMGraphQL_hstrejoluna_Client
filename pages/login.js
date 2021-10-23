@@ -44,7 +44,7 @@ const Login = () => {
           },
         });
         guardarMensaje("Autenticando...");
-
+        console.log("token is"+token);
         // Guardar el token en localStorage
         const { token } = data.autenticarUsuario;
         localStorage.setItem("token", token);
