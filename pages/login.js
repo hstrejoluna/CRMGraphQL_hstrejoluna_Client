@@ -17,6 +17,7 @@ const Login = () => {
   // routing
   const router = useRouter();
   const [mensaje, guardarMensaje] = useState(null);
+  const [bien, guardarBien] = useState(false);
   // Mutation para crear nuevos usuarios en apollo
   const [autenticarUsuario] = useMutation(AUTENTICAR_USUARIO);
 
@@ -43,18 +44,22 @@ const Login = () => {
             },
           },
         });
+        guardarBien(true);
         guardarMensaje("Autenticando...");
-        console.log("token is"+token);
+
         // Guardar el token en localStorage
-        const { token } = data.autenticarUsuario;
-        localStorage.setItem("token", token);
+        setTimeout(() => {
+          const { token } = data.autenticarUsuario;
+          localStorage.setItem("token", token);
+        }, 1000);
 
         // Redireccionar hacia clientes
 
         setTimeout(() => {
           guardarMensaje(null);
+          guardarBien(false);
           router.push("/");
-        }, 1200);
+        }, 3000);
       } catch (error) {
         guardarMensaje(error.message.replace("GraphQL error:", ""));
 
@@ -105,7 +110,7 @@ const Login = () => {
                   Email
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="email"
                   type="email"
                   placeholder="Email Usuario"
@@ -117,13 +122,13 @@ const Login = () => {
               {errorEmail}
               <div className="mb-4">
                 <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-gray-700 text-sm font-bold mb-2 "
                   htmlFor="password"
                 >
                   Password
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="password"
                   type="password"
                   placeholder="Password Usuario"
