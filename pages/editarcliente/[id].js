@@ -78,7 +78,7 @@ const EditarCliente = () => {
   };
 
   return (
-    <Layout>
+    <Layout titulo={"editando "+ obtenerCliente.nombre}>
       <h1 className="text-2xl text-gray-800 font-light">Editar Cliente</h1>
 
       <div className="flex justify-center mt-5">

@@ -30,8 +30,8 @@ const EditarProducto = () => {
   // Schema de validacion
   const schemaValidacion = Yup.object({
     nombre: Yup.string().required("El nombre del cliente es obligatorio"),
-    precio: Yup.string().required("El precio del producto es obligatorio"),
-    existencia: Yup.string().required(
+    precio: Yup.number().required("El precio del producto es obligatorio"),
+    existencia: Yup.number().required(
       "La existencia del producto es obligatoria"
     ),
   });
@@ -71,8 +71,8 @@ const EditarProducto = () => {
   };
 
   return (
-    <Layout>
-      <h1 className="text-2xl text-gray-800 font-light">Editar Cliente</h1>
+    <Layout titulo={"editando "+ obtenerProducto.nombre}>
+      <h1 className="text-2xl text-gray-800 font-light">Editar Producto</h1>
 
       <div className="flex justify-center mt-5">
         <div className="w-full max-w-lg">
@@ -128,7 +128,7 @@ const EditarProducto = () => {
                     <input
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       id="precio"
-                      type="text"
+                      type="number"
                       placeholder="Precio Producto"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
@@ -146,15 +146,15 @@ const EditarProducto = () => {
                   <div className="mb-4">
                     <label
                       className="block text-gray-700 text-sm font-bold mb-2"
-                      htmlFor="cantidad"
+                      htmlFor="existencia"
                     >
                       Cantidad en Existencia
                     </label>
 
                     <input
                       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      id="cantidad"
-                      type="text"
+                      id="existencia"
+                      type="number"
                       placeholder="Cantidad en existencia"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
