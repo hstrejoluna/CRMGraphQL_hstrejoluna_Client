@@ -1,7 +1,7 @@
 import { useQuery, gql } from "@apollo/client";
 import { useRouter } from "next/router";
 
-import { OBTENER_USUARIO } from "../../graphql/queries";
+import { OBTENER_USUARIO } from "../graphql/queries";
 
 const Header = () => {
   const router = useRouter();
