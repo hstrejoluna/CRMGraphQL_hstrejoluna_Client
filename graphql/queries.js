@@ -35,4 +35,20 @@ const OBTENER_CLIENTES_USUARIO = gql`
   }
 `;
 
-export { OBTENER_USUARIO, OBTENER_CLIENTE, OBTENER_CLIENTES_USUARIO };
+const OBTENER_PRODUCTOS = gql`
+  query obtenerProductos {
+    obtenerProductos {
+      id
+      nombre
+      precio
+      existencia
+    }
+  }
+`;
+
+export {
+  OBTENER_USUARIO,
+  OBTENER_CLIENTE,
+  OBTENER_CLIENTES_USUARIO,
+  OBTENER_PRODUCTOS,
+};
