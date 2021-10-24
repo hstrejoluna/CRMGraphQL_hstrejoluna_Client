@@ -47,11 +47,23 @@ const ELIMINAR_CLIENTE = gql`
   }
 `;
 
+const ACTUALIZAR_PRODUCTO = gql`
+  mutation actualizarProducto($id: ID!, $input: ProductoInput) {
+    actualizarProducto(id: $id, input: $input) {
+      nombre
+      precio
+      existencia
+    }
+  }
+`;
+
 const ELIMINAR_PRODUCTO = gql`
   mutation eliminarProducto($id: ID!) {
     eliminarProducto(id: $id)
   }
 `;
+
+
 
 export {
   AUTENTICAR_USUARIO,
@@ -59,5 +71,6 @@ export {
   ACTUALIZAR_CLIENTE,
   ELIMINAR_CLIENTE,
   NUEVA_CUENTA,
+  ACTUALIZAR_PRODUCTO,
   ELIMINAR_PRODUCTO,
 };

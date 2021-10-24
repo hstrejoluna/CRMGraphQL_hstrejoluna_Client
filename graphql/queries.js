@@ -46,9 +46,21 @@ const OBTENER_PRODUCTOS = gql`
   }
 `;
 
+const OBTENER_PRODUCTO = gql`
+  query obtenerProducto($id: ID!) {
+    obtenerProducto(id: $id) {
+      id
+      nombre
+      precio
+      existencia
+    }
+  }
+`;
+
 export {
   OBTENER_USUARIO,
   OBTENER_CLIENTE,
   OBTENER_CLIENTES_USUARIO,
   OBTENER_PRODUCTOS,
+  OBTENER_PRODUCTO
 };

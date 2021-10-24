@@ -54,6 +54,13 @@ const Producto = ({ producto }) => {
     });
   };
 
+  // Editar producto
+  const editarProducto = () => {
+    Router.push({
+      pathname: "/editarproducto/[id]",
+      query: { id },
+    });
+  };
   return (
     <tr>
       <td className="boder px-4 py-2">{nombre}</td>
@@ -86,7 +93,7 @@ const Producto = ({ producto }) => {
         <button
           type="button"
           className="flex justify-center items-center bg-green-600 py-2 px-4 w-full text-white rounded text-xs uppercase font-bold"
-          //onClick={() => editarCliente()}
+          onClick={() => editarProducto()}
         >
           Editar
           <svg

@@ -5,10 +5,7 @@ import * as Yup from "yup";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 
-
 import { AUTENTICAR_USUARIO } from "../graphql/mutations";
-
-
 
 const Login = () => {
   // routing
