@@ -3,8 +3,57 @@ import Swal from "sweetalert2";
 import { useMutation } from "@apollo/client";
 import Router from "next/router";
 
+import { ELIMINAR_PRODUCTO } from "../graphql/mutations";
+import { OBTENER_PRODUCTOS } from "../graphql/queries";
+
 const Producto = ({ producto }) => {
+  // Mutation para eliminar producto
+  const [eliminarProducto] = useMutation(ELIMINAR_PRODUCTO, {
+    update(cache) {
+      // Obtener una copia del objeto de cache
+      const { obtenerProductos } = cache.readQuery({
+        query: OBTENER_PRODUCTOS,
+      });
+
+      // Reescribir el cache
+      cache.writeQuery({
+        query: OBTENER_PRODUCTOS,
+        data: {
+          obtenerProductos: obtenerProductos.filter(
+            (productoActual) => productoActual.id !== id
+          ),
+        },
+      });
+    },
+  });
   const { nombre, precio, existencia, id } = producto;
+
+  // Eliminar producto
+  const confirmarEliminarProducto = () => {
+    Swal.fire({
+      title: "¿Deseas eliminar este producto?",
+      text: "Esta acción no se puede deshacer",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar",
+      cancelButtonText: "No, Cancelar",
+    }).then(async (result) => {
+      if (result.value) {
+        try {
+          // Eliminar por ID
+          const { data } = await eliminarProducto({
+            variables: {
+              id,
+            },
+          });
+          Swal.fire("Eliminado!", data.eliminarProducto, "success");
+        } catch (error) {}
+      }
+    });
+  };
+
   return (
     <tr>
       <td className="boder px-4 py-2">{nombre}</td>
@@ -14,7 +63,7 @@ const Producto = ({ producto }) => {
         <button
           type="button"
           className="flex justify-center items-center bg-red-800 py-2 px-4 w-full text-white rounded text-xs uppercase font-bold"
-         // onClick={() => confirmarEliminarCliente()}
+          onClick={() => confirmarEliminarProducto()}
         >
           Eliminar
           <svg

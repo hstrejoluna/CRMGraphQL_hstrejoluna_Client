@@ -21,6 +21,17 @@ const NUEVO_CLIENTE = gql`
   }
 `;
 
+const NUEVA_CUENTA = gql`
+  mutation nuevoUsuario($input: UsuarioInput) {
+    nuevoUsuario(input: $input) {
+      id
+      nombre
+      apellido
+      email
+    }
+  }
+`;
+
 const ACTUALIZAR_CLIENTE = gql`
   mutation actualizarCliente($id: ID!, $input: ClienteInput) {
     actualizarCliente(id: $id, input: $input) {
@@ -36,14 +47,9 @@ const ELIMINAR_CLIENTE = gql`
   }
 `;
 
-const NUEVA_CUENTA = gql`
-  mutation nuevoUsuario($input: UsuarioInput) {
-    nuevoUsuario(input: $input) {
-      id
-      nombre
-      apellido
-      email
-    }
+const ELIMINAR_PRODUCTO = gql`
+  mutation eliminarProducto($id: ID!) {
+    eliminarProducto(id: $id)
   }
 `;
 
@@ -53,4 +59,5 @@ export {
   ACTUALIZAR_CLIENTE,
   ELIMINAR_CLIENTE,
   NUEVA_CUENTA,
+  ELIMINAR_PRODUCTO,
 };
