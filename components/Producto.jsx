@@ -62,11 +62,12 @@ const Producto = ({ producto }) => {
     });
   };
   return (
-    <tr>
-      <td className="boder px-4 py-2">{nombre}</td>
-      <td className="boder px-4 py-2">{existencia}</td>
-      <td className="boder px-4 py-2">{precio}</td>
-      <td className="boder px-4 py-2">
+    
+    <tr className="hover:bg-gray-100">
+      <td className="border px-4 py-2">{nombre}</td>
+      <td className="border px-4 py-2">{existencia}</td>
+      <td className="border px-4 py-2">$ {precio}</td>
+      <td className="border px-4 py-2">
         <button
           type="button"
           className="flex justify-center items-center bg-red-800 py-2 px-4 w-full text-white rounded text-xs uppercase font-bold"
