@@ -2,7 +2,7 @@ import { useState } from "react";
 import Layout from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 
 import { NUEVO_CLIENTE } from "../graphql/mutations";

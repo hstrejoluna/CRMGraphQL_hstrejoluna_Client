@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Swal from "sweetalert2";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import Router from "next/router";
 
 import { OBTENER_CLIENTES_USUARIO } from "../graphql/queries";
