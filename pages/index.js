@@ -28,7 +28,7 @@ const Index = () => {
   }
 
   return (
-    <Layout title="Clientes">
+    <Layout titulo="👥 Clientes">
       <h1 className="text-2xl text-gray-800">Clientes</h1>
       {data &&
         data.obtenerClientesVendedor &&

@@ -4,13 +4,13 @@ import Header from "./Header";
 
 import { useRouter } from "next/router";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, titulo }) => {
   const router = useRouter();
 
   return (
     <>
       <Head>
-        <title>CRM - Administración de Clientes</title>
+        <title>CRM - {titulo ? titulo : 'Cargando...'}</title>
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"

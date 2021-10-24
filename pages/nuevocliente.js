@@ -113,7 +113,7 @@ const NuevoCliente = () => {
   };
 
   return (
-    <Layout>
+    <Layout titulo="📤 Nuevo Cliente ">
       <h1 className="text-2xl text-gray-800">Nuevo Cliente</h1>
       {mensaje && mostrarMensaje()}
       <div className="flex justify-center mt-5">

@@ -89,7 +89,7 @@ const Login = () => {
 
   return (
     <>
-      <Layout>
+      <Layout titulo="👋 Bienvenido">
         <h1 className="text-center text-2xl text-white font-light">Login</h1>
 
         {mensaje && mostrarMensaje()}
@@ -138,7 +138,7 @@ const Login = () => {
 
               <input
                 type="submit"
-                className="bg-gray-800 font-black w-full mt-5 p-2 text-white uppercase hover:bg-gray-900"
+                className="bg-gray-800 font-black w-full mt-5 p-2 text-white uppercase hover:bg-gray-900 cursor-pointer"
                 value="Iniciar Sesión"
               />
             </form>
