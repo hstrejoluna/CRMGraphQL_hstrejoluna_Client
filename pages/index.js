@@ -4,27 +4,15 @@ import { gql, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-const OBTENER_CLIENTES_USUARIO = gql`
-  query obtenerClientesVendedor {
-    obtenerClientesVendedor {
-      id
-      nombre
-      apellido
-      empresa
-      email
-      telefono
-    }
-  }
-`;
+import { OBTENER_CLIENTES_USUARIO } from "../graphql/queries";
+
 
 const Index = () => {
   const router = useRouter();
   // Consulta de Apollo
   const { data, loading, error } = useQuery(OBTENER_CLIENTES_USUARIO);
 
-  console.log(data);
-  console.log(loading);
-  console.log(error);
+  
 
   if (loading) return "Cargando...";
 

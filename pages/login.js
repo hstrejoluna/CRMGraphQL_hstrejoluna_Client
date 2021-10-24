@@ -5,13 +5,10 @@ import * as Yup from "yup";
 import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 
-const AUTENTICAR_USUARIO = gql`
-  mutation autenticarUsuario($input: AutenticarInput) {
-    autenticarUsuario(input: $input) {
-      token
-    }
-  }
-`;
+
+import { AUTENTICAR_USUARIO } from "../graphql/mutations";
+
+
 
 const Login = () => {
   // routing

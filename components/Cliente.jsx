@@ -3,24 +3,8 @@ import Swal from "sweetalert2";
 import { gql, useMutation } from "@apollo/client";
 import Router from "next/router";
 
-const ELIMINAR_CLIENTE = gql`
-  mutation eliminarCliente($id: ID!) {
-    eliminarCliente(id: $id)
-  }
-`;
-
-const OBTENER_CLIENTES_USUARIO = gql`
-  query obtenerClientesVendedor {
-    obtenerClientesVendedor {
-      id
-      nombre
-      apellido
-      empresa
-      email
-      telefono
-    }
-  }
-`;
+import { OBTENER_CLIENTES_USUARIO } from "../graphql/queries";
+import { ELIMINAR_CLIENTE } from "../graphql/mutations";
 
 const Cliente = ({ cliente }) => {
   // mutation para eliminar cliente
@@ -43,7 +27,6 @@ const Cliente = ({ cliente }) => {
     },
   });
   const { nombre, apellido, empresa, email, telefono, id } = cliente;
-
 
   //Eliminar Cliente
   const confirmarEliminarCliente = () => {

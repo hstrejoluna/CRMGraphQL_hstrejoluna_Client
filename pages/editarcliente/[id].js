@@ -6,26 +6,8 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 
-const OBTENER_CLIENTE = gql`
-  query obtenerCliente($id: ID!) {
-    obtenerCliente(id: $id) {
-      nombre
-      apellido
-      email
-      telefono
-      empresa
-    }
-  }
-`;
-
-const ACTUALIZAR_CLIENTE = gql`
-  mutation actualizarCliente($id: ID!, $input: ClienteInput) {
-    actualizarCliente(id: $id, input: $input) {
-      nombre
-      email
-    }
-  }
-`;
+import { ACTUALIZAR_CLIENTE } from "../../graphql/mutations";
+import { OBTENER_CLIENTE } from "../../graphql/queries";
 
 const EditarCliente = () => {
   // obtener el ID actual
@@ -34,15 +16,13 @@ const EditarCliente = () => {
     query: { id },
   } = router;
 
- 
   // Consultar para obtener el cliente
 
   const { data, loading, error } = useQuery(OBTENER_CLIENTE, {
     variables: {
-      id
+      id,
     },
   });
-
 
   // Actualizar el cliente
   const [actualizarCliente] = useMutation(ACTUALIZAR_CLIENTE);
@@ -61,7 +41,7 @@ const EditarCliente = () => {
 
   // console.log(data.obtenerCliente)
 
-  const { obtenerCliente } = data; 
+  const { obtenerCliente } = data;
 
   // Modifica el cliente en la BD
   const actualizarInfoCliente = async (valores) => {

@@ -1,15 +1,7 @@
 import { useQuery, gql } from "@apollo/client";
 import { useRouter } from "next/router";
 
-const OBTENER_USUARIO = gql`
-  query obtenerUsuario {
-    obtenerUsuario {
-      id
-      nombre
-      apellido
-    }
-  }
-`;
+import { OBTENER_USUARIO } from "../../graphql/queries";
 
 const Header = () => {
   const router = useRouter();

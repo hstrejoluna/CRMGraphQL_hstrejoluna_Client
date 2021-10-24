@@ -5,30 +5,8 @@ import * as Yup from "yup";
 import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 
-const NUEVO_CLIENTE = gql`
-  mutation nuevoCliente($input: ClienteInput) {
-    nuevoCliente(input: $input) {
-      id
-      nombre
-      apellido
-      empresa
-      email
-      telefono
-    }
-  }
-`;
-
-const OBTENER_CLIENTES_USUARIO = gql`
-  query obtenerClientesVendedor {
-    obtenerClientesVendedor {
-      id
-      nombre
-      apellido
-      empresa
-      email
-    }
-  }
-`;
+import { NUEVO_CLIENTE } from "../graphql/mutations";
+import { OBTENER_CLIENTES_USUARIO } from "../graphql/queries";
 
 const NuevoCliente = () => {
   const router = useRouter();

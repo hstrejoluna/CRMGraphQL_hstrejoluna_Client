@@ -4,17 +4,8 @@ import Layout from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation, gql } from "@apollo/client";
+import { NUEVA_CUENTA } from "../graphql/mutations";
 
-const NUEVA_CUENTA = gql`
-  mutation nuevoUsuario($input: UsuarioInput) {
-    nuevoUsuario(input: $input) {
-      id
-      nombre
-      apellido
-      email
-    }
-  }
-`;
 
 const NuevaCuenta = () => {
   // State para el mensaje
