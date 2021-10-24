@@ -81,7 +81,7 @@ const EditarProducto = () => {
             enableReinitialize
             initialValues={obtenerProducto}
             onSubmit={(valores) => {
-              actualizarInfoCliente(valores);
+              actualizarInfoProducto(valores);
             }}
           >
             {(props) => {
