@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Swal from "sweetalert2";
 import { useMutation } from "@apollo/client";
 import Router from "next/router";

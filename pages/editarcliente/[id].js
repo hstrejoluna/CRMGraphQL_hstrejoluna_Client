@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 
 import { ACTUALIZAR_CLIENTE } from "../../graphql/mutations";
 import { OBTENER_CLIENTE } from "../../graphql/queries";
+import { OBTENER_CLIENTES_USUARIO } from "../../graphql/queries";
 
 const EditarCliente = () => {
   // obtener el ID actual
@@ -25,7 +26,22 @@ const EditarCliente = () => {
   });
 
   // Actualizar el cliente
-  const [actualizarCliente] = useMutation(ACTUALIZAR_CLIENTE);
+  const [actualizarCliente] = useMutation(ACTUALIZAR_CLIENTE, {
+    update(cache, { data: { actualizarCliente } }) {
+      // Obtener el objeto de cache que deseamos actualizar
+      const { obtenerClientesVendedor } = cache.readQuery({
+        query: OBTENER_CLIENTES_USUARIO,
+      });
+
+      // Reescribimos el cache ( el cache nunca se debe modificar)
+      cache.writeQuery({
+        query: OBTENER_CLIENTES_USUARIO,
+        data: {
+          obtenerClientesVendedor: [...obtenerClientesVendedor, actualizarCliente],
+        },
+      });
+    },
+  });
 
   // Schema de validacion
   const schemaValidacion = Yup.object({
@@ -78,7 +94,7 @@ const EditarCliente = () => {
   };
 
   return (
-    <Layout titulo={"editando "+ obtenerCliente.nombre}>
+    <Layout titulo={"editando " + obtenerCliente.nombre}>
       <h1 className="text-2xl text-gray-800 font-light">Editar Cliente</h1>
 
       <div className="flex justify-center mt-5">

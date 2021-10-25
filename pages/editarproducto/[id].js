@@ -10,7 +10,6 @@ import { ACTUALIZAR_PRODUCTO } from "../../graphql/mutations";
 import { OBTENER_PRODUCTO } from "../../graphql/queries";
 import { OBTENER_PRODUCTOS } from "../../graphql/queries";
 
-
 const EditarProducto = () => {
   // obtener el ID actual
   const router = useRouter();
