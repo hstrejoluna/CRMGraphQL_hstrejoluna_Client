@@ -1,13 +1,15 @@
 import React from "react";
 import { useRouter } from "next/router";
 import Layout from "../../components/Layout";
-import { useQuery, gql, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 
 import { ACTUALIZAR_PRODUCTO } from "../../graphql/mutations";
 import { OBTENER_PRODUCTO } from "../../graphql/queries";
+import { OBTENER_PRODUCTOS } from "../../graphql/queries";
+
 
 const EditarProducto = () => {
   // obtener el ID actual
@@ -25,7 +27,22 @@ const EditarProducto = () => {
   });
 
   // Actualizar el producto
-  const [actualizarProducto] = useMutation(ACTUALIZAR_PRODUCTO);
+  const [actualizarProducto] = useMutation(ACTUALIZAR_PRODUCTO, {
+    update(cache, { data: { actualizarProducto } }) {
+      // Obtener el objeto de cache que deseamos actualizar
+      const { obtenerProductos } = cache.readQuery({
+        query: OBTENER_PRODUCTOS,
+      });
+
+      // Reescribimos el cache ( el cache nunca se debe modificar)
+      cache.writeQuery({
+        query: OBTENER_PRODUCTOS,
+        data: {
+          obtenerProductos: [...obtenerProductos, actualizarProducto],
+        },
+      });
+    },
+  });
 
   // Schema de validacion
   const schemaValidacion = Yup.object({
@@ -64,6 +81,7 @@ const EditarProducto = () => {
       );
 
       // Redireccionar
+
       router.push("/productos");
     } catch (error) {
       console.log(error);
@@ -71,7 +89,7 @@ const EditarProducto = () => {
   };
 
   return (
-    <Layout titulo={"editando "+ obtenerProducto.nombre}>
+    <Layout titulo={"editando " + obtenerProducto.nombre}>
       <h1 className="text-2xl text-gray-800 font-light">Editar Producto</h1>
 
       <div className="flex justify-center mt-5">

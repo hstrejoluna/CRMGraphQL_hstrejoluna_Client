@@ -2,14 +2,12 @@ import Layout from "../components/Layout";
 import Producto from "../components/Producto";
 import { useQuery } from "@apollo/client";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { OBTENER_PRODUCTOS } from "../graphql/queries";
 
 const Productos = () => {
   const { loading, error, data } = useQuery(OBTENER_PRODUCTOS);
-  console.log(data);
-  console.log(loading);
-  console.log(error);
 
   if (loading) {
     return (
