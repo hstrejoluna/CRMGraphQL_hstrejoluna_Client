@@ -1,13 +1,13 @@
-import Cliente from "../components/Cliente";
-import Layout from "../components/Layout";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
+import Cliente from "../components/Cliente";
+import Layout from "../components/Layout";
+
 import { OBTENER_CLIENTES_USUARIO } from "../graphql/queries";
 
 const Index = () => {
-  // Consulta de Apollo
   const { data, loading, error } = useQuery(OBTENER_CLIENTES_USUARIO);
 
   const router = useRouter();

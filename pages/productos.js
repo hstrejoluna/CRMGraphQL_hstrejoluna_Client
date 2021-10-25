@@ -1,8 +1,8 @@
-import Layout from "../components/Layout";
-import Producto from "../components/Producto";
 import { useQuery } from "@apollo/client";
 import Link from "next/link";
-import { useRouter } from "next/router";
+
+import Layout from "../components/Layout";
+import Producto from "../components/Producto";
 
 import { OBTENER_PRODUCTOS } from "../graphql/queries";
 
