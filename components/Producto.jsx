@@ -12,6 +12,7 @@ const Producto = ({ producto }) => {
       // Obtener una copia del objeto de cache
       const { obtenerProductos } = cache.readQuery({
         query: OBTENER_PRODUCTOS,
+        
       });
 
       // Reescribir el cache

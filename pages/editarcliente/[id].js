@@ -26,22 +26,33 @@ const EditarCliente = () => {
   });
 
   // Actualizar el cliente
-  const [actualizarCliente] = useMutation(ACTUALIZAR_CLIENTE, {
-    update(cache, { data: { actualizarCliente } }) {
-      // Obtener el objeto de cache que deseamos actualizar
-      const { obtenerClientesVendedor } = cache.readQuery({
-        query: OBTENER_CLIENTES_USUARIO,
-      });
+  const [actualizarCliente] = useMutation(
+    ACTUALIZAR_CLIENTE,
+    /**
+     */ {
+      update(cache, { data: { actualizarCliente } }) {
+        // Obtener el objeto de cache que deseamos actualizar
+        const { obtenerClientesVendedor } = cache.readQuery({
+          query: OBTENER_CLIENTES_USUARIO,
+          variables: {
+            id: id,
+          },
+        });
 
-      // Reescribimos el cache ( el cache nunca se debe modificar)
-      cache.writeQuery({
-        query: OBTENER_CLIENTES_USUARIO,
-        data: {
-          obtenerClientesVendedor: [...obtenerClientesVendedor, actualizarCliente],
-        },
-      });
-    },
-  });
+        // Reescribimos el cache ( el cache nunca se debe modificar)
+        cache.writeQuery({
+          query: OBTENER_CLIENTES_USUARIO,
+          variables: { id: id },
+          data: {
+            obtenerClientesVendedor: [
+              ...obtenerClientesVendedor,
+              actualizarCliente,
+            ],
+          },
+        });
+      },
+    }
+  );
 
   // Schema de validacion
   const schemaValidacion = Yup.object({

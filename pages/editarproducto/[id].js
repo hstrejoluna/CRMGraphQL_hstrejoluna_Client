@@ -31,11 +31,15 @@ const EditarProducto = () => {
       // Obtener el objeto de cache que deseamos actualizar
       const { obtenerProductos } = cache.readQuery({
         query: OBTENER_PRODUCTOS,
+        variables: {
+          id: id,
+        },
       });
 
       // Reescribimos el cache ( el cache nunca se debe modificar)
       cache.writeQuery({
         query: OBTENER_PRODUCTOS,
+        variables: { id: id },
         data: {
           obtenerProductos: [...obtenerProductos, actualizarProducto],
         },
