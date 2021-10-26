@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Select from "react-select";
-
 import { useQuery } from "@apollo/client";
+import PedidoContext from "../../context/pedidos/PedidoContext";
 
-import { OBTENER_CLIENTES_USUARIO } from "../graphql/queries";
+import { OBTENER_CLIENTES_USUARIO } from "../../graphql/queries";
 
 const clientes = [
   { id: 1, nombre: "Cliente 1" },
@@ -15,11 +15,14 @@ const clientes = [
 const AsignarCliente = () => {
   const [cliente, setCliente] = useState(null);
 
+  const pedidoContext = useContext(PedidoContext);
+  const { agregarCliente } = pedidoContext;
+
   // Consultar la base de datos
   const { data, loading, error } = useQuery(OBTENER_CLIENTES_USUARIO);
 
   useEffect(() => {
-    setCliente(clientes[0]);
+    agregarCliente(cliente);
   }, [cliente]);
 
   const seleccionarCliente = (clientes) => {
