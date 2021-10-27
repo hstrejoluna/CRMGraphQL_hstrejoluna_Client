@@ -19,7 +19,11 @@ export default (state, action) => {
     case CANTIDAD_PRODUCTOS:
       return {
         ...state,
-        cantidad: action.payload,
+        productos: state.productos.map((producto) =>
+          producto.id === action.payload.id
+            ? (producto = action.payload)
+            : producto
+        ),
       };
     default:
       return state;
