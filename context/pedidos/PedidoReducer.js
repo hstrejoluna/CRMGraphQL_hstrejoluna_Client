@@ -5,7 +5,7 @@ import {
   ACTUALIZAR_TOTAL,
 } from "../../types";
 
-export default (state, action) => {
+const pedidoReducer = (state, action) => {
   switch (action.type) {
     case SELECCIONAR_CLIENTE:
       return {
@@ -30,12 +30,17 @@ export default (state, action) => {
     case ACTUALIZAR_TOTAL:
       return {
         ...state,
-        
-        total: state.productos.reduce((nuevoTotal, articulo) =>(nuevoTotal += articulo.precio * articulo.cantidad, 0),
-        console.log("ESTATE PRODUCTOS ESSSSSSSSSSSS: "+state.productos),
+
+        total: state.productos.reduce(
+          (nuevoTotal, producto) => (
+            nuevoTotal += producto.precio * producto.cantidad, 0
+          ),
+          console.log("ESTATE PRODUCTOS ESSSSSSSSSSSS: " + state.productos)
         ),
       };
     default:
       return state;
   }
 };
+
+export default pedidoReducer;
