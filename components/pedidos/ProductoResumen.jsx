@@ -1,4 +1,7 @@
-import { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
+
+import PropTypes from "prop-types";
+
 import PedidoContext from "../../context/pedidos/PedidoContext";
 
 const ProductoResumen = ({ producto }) => {
@@ -9,21 +12,21 @@ const ProductoResumen = ({ producto }) => {
 
   useEffect(() => {
     actualizarCantidad();
-    actualizarTotal();
   }, [cantidad]);
 
   const actualizarCantidad = () => {
     const nuevoProducto = { ...producto, cantidad: Number(cantidad) };
     cantidadProductos(nuevoProducto);
-    
+    actualizarTotal();
   };
 
   const { nombre, precio } = producto;
+
   return (
     <div className="md:flex md:justify-between md:items-center mt-5">
       <div className="md:w-2/4 mb-2 md:mb-0">
         <p className="text-sm">{nombre}</p>
-        <p>$ {precio}</p>
+        <p>${precio}</p>
       </div>
 
       <input
@@ -36,4 +39,9 @@ const ProductoResumen = ({ producto }) => {
     </div>
   );
 };
+
+ProductoResumen.propTypes = {
+  producto: PropTypes.object.isRequired,
+};
+
 export default ProductoResumen;
