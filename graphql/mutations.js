@@ -35,8 +35,11 @@ const NUEVA_CUENTA = gql`
 const ACTUALIZAR_CLIENTE = gql`
   mutation actualizarCliente($id: ID!, $input: ClienteInput) {
     actualizarCliente(id: $id, input: $input) {
+      id
       nombre
+      apellido
       email
+      empresa
     }
   }
 `;
@@ -50,6 +53,7 @@ const ELIMINAR_CLIENTE = gql`
 const ACTUALIZAR_PRODUCTO = gql`
   mutation actualizarProducto($id: ID!, $input: ProductoInput) {
     actualizarProducto(id: $id, input: $input) {
+      id
       nombre
       precio
       existencia
