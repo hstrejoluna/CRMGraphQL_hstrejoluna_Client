@@ -1,13 +1,13 @@
-import { useQuery } from "@apollo/client";
+import React from "react";
 import { useRouter } from "next/router";
+import { useQuery } from "@apollo/client";
 
 import { OBTENER_USUARIO } from "../graphql/queries";
 
 const Header = () => {
-  const router = useRouter();
-
-  // query de apollo
   const { data, loading, error } = useQuery(OBTENER_USUARIO);
+
+  const router = useRouter();
 
   // Proteger que no accedamos a data antes de tener resultados
   if (loading) return null;
