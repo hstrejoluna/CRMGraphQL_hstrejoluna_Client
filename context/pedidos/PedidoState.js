@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import React, { useReducer } from "react";
 import PedidoContext from "./PedidoContext";
 import PedidoReducer from "./PedidoReducer";
 
@@ -10,7 +10,6 @@ import {
 } from "../../types";
 
 const PedidoState = ({ children }) => {
-  // State de pedidos
   const initialState = {
     cliente: {},
     productos: [],
@@ -40,13 +39,15 @@ const PedidoState = ({ children }) => {
   const agregarProducto = (productosSeleccionados) => {
     let nuevoState;
     // Tomar del segundo arreglo una copia para asignarlo al primero
-    if (state.productos.length > 0) {
-      nuevoState = productosSeleccionados.map((producto) => {
-        const nuevoObjeto = state.productos.find(
-          (productoState) => productoState.id === producto.id
-        );
-        return { ...producto, ...nuevoObjeto };
-      });
+    if (state.productos && state.productos.length > 0) {
+      if (productosSeleccionados) {
+        nuevoState = productosSeleccionados.map((producto) => {
+          const nuevoObjeto = state.productos.find(
+            (productoState) => productoState.id === producto.id
+          );
+          return { ...producto, ...nuevoObjeto };
+        });
+      }
     } else {
       nuevoState = productosSeleccionados;
     }
@@ -78,11 +79,12 @@ const PedidoState = ({ children }) => {
     <PedidoContext.Provider
       value={{
         productos: state.productos,
-        total: state.total,
         agregarCliente,
         agregarProducto,
         cantidadProductos,
         actualizarTotal,
+        total: state.total,
+        cliente: state.cliente,
       }}
     >
       {children}
