@@ -1,35 +1,17 @@
+import React from "react";
 import Swal from "sweetalert2";
 import { useMutation } from "@apollo/client";
-import Router from "next/router";
+import { useRouter } from "next/router";
+
+import { OBTENER_PRODUCTOS } from "../graphql/queries";
 
 import { ELIMINAR_PRODUCTO } from "../graphql/mutations";
-import { OBTENER_PRODUCTOS } from "../graphql/queries";
 
 const Producto = ({ producto }) => {
   // Mutation para eliminar producto
-  const [eliminarProducto] = useMutation(ELIMINAR_PRODUCTO, {
-    update(cache) {
-      // Obtener una copia del objeto de cache
-      const { obtenerProductos } = cache.readQuery({
-        query: OBTENER_PRODUCTOS,
-        
-      });
+  const [eliminarProducto] = useMutation(ELIMINAR_PRODUCTO);
 
-      // Reescribir el cache
-      cache.writeQuery({
-        query: OBTENER_PRODUCTOS,
-        data: {
-          obtenerProductos: obtenerProductos.filter(
-            (productoActual) => productoActual.id !== id
-          ),
-        },
-      });
-    },
-  });
-  const { nombre, precio, existencia, id } = producto;
-
-  // Eliminar producto
-  const confirmarEliminarProducto = () => {
+  const confirmarEliminarProducto = (producto) => {
     Swal.fire({
       title: "¿Deseas eliminar este producto?",
       text: "Esta acción no se puede deshacer",
@@ -42,36 +24,61 @@ const Producto = ({ producto }) => {
     }).then(async (result) => {
       if (result.value) {
         try {
-          // Eliminar por ID
+          const { id, nombre } = producto;
           const { data } = await eliminarProducto({
             variables: {
               id,
             },
+            update(cache) {
+              // Obtener una copia del objeto de cache
+              const { obtenerProductos } = cache.readQuery({
+                query: OBTENER_PRODUCTOS,
+              });
+
+              // Reescribir el cache
+              cache.writeQuery({
+                query: OBTENER_PRODUCTOS,
+                data: {
+                  obtenerProductos: obtenerProductos.filter(
+                    (productoActual) => productoActual.id !== id
+                  ),
+                },
+              });
+            },
           });
-          Swal.fire("Eliminado!", data.eliminarProducto, "success");
-        } catch (error) {}
+
+          Swal.fire(
+            "Eliminado!",
+            data.eliminarProducto.replace(
+              "Producto eliminado",
+              `Producto ${nombre
+                .toUpperCase()
+                .bold()}, ha sido eliminado de la lista`
+            ),
+            "success"
+          );
+        } catch (error) {
+          Swal.fire("Error", error.message, "error");
+        }
       }
     });
   };
 
-  // Editar producto
-  const editarProducto = () => {
-    Router.push({
-      pathname: "/editarproducto/[id]",
-      query: { id },
-    });
+  const router = useRouter();
+
+  const editarProducto = (id) => {
+    router.push(`/editarproducto/${id}`);
   };
   return (
-    
     <tr className="hover:bg-gray-100">
-      <td className="border px-4 py-2">{nombre}</td>
-      <td className="border px-4 py-2">{existencia}</td>
-      <td className="border px-4 py-2">$ {precio}</td>
+      <td className="border px-4 py-2">{producto.nombre}</td>
+      <td className="border px-4 py-2">{producto.existencia}</td>
+      <td className="border px-4 py-2">$ {producto.precio}</td>
       <td className="border px-4 py-2">
         <button
           type="button"
           className="flex justify-center items-center bg-red-800 py-2 px-4 w-full text-white rounded text-xs uppercase font-bold"
-          onClick={() => confirmarEliminarProducto()}
+          onClick={() => confirmarEliminarProducto(producto)}
         >
           Eliminar
           <svg
@@ -94,7 +101,7 @@ const Producto = ({ producto }) => {
         <button
           type="button"
           className="flex justify-center items-center bg-green-600 py-2 px-4 w-full text-white rounded text-xs uppercase font-bold"
-          onClick={() => editarProducto()}
+          onClick={() => editarProducto(producto.id)}
         >
           Editar
           <svg
