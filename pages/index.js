@@ -1,3 +1,4 @@
+import React from "react";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -53,9 +54,7 @@ const Index = () => {
         </>
       ) : (
         data.obtenerClientesVendedor && (
-          <table className="table-auto shadow-md mt-10 w-full w-lg">
-           
-          </table>
+          <Cliente obtenerClientesVendedor={data.obtenerClientesVendedor} />
         )
       )}
     </Layout>

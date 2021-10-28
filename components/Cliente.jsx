@@ -24,7 +24,8 @@ const Cliente = ({ obtenerClientesVendedor }) => {
     }).then(async (result) => {
       if (result.value) {
         try {
-          // Eliminar por ID
+          const { id, nombre, apellido } = cliente;
+         
           const { data } = await eliminarCliente({
             variables: {
               id,
@@ -74,7 +75,7 @@ const Cliente = ({ obtenerClientesVendedor }) => {
     router.push(`/editarcliente/${id}`);
   };
 
-  return obtenerClientesVendedor && obtenerClientesVendedor.length === 0 ? (
+  return obtenerClientesVendedor && obtenerClientesVendedor.length > 0 ? (
     <div className="overflow-x-scroll">
       <table className="table-auto shadow-md mt-10 w-full w-lg">
         <thead className="bg-gray-800">

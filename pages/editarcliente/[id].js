@@ -1,23 +1,22 @@
 import React from "react";
+import Swal from "sweetalert2";
 import { useRouter } from "next/router";
-import Layout from "../../components/Layout";
-import { useQuery, gql, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import Swal from "sweetalert2";
+
+import Layout from "../../components/Layout";
+
+import { OBTENER_CLIENTE } from "../../graphql/queries";
 
 import { ACTUALIZAR_CLIENTE } from "../../graphql/mutations";
-import { OBTENER_CLIENTE } from "../../graphql/queries";
-import { OBTENER_CLIENTES_USUARIO } from "../../graphql/queries";
 
 const EditarCliente = () => {
-  // obtener el ID actual
+  
   const router = useRouter();
   const {
     query: { id },
   } = router;
-
-  // Consultar para obtener el cliente
 
   const { data, loading, error } = useQuery(OBTENER_CLIENTE, {
     variables: {
@@ -25,52 +24,12 @@ const EditarCliente = () => {
     },
   });
 
-  // Actualizar el cliente
-  const [actualizarCliente] = useMutation(
-    ACTUALIZAR_CLIENTE,
-    /**
-     */ {
-      update(cache, { data: { actualizarCliente } }) {
-        // Obtener el objeto de cache que deseamos actualizar
-        const { obtenerClientesVendedor } = cache.readQuery({
-          query: OBTENER_CLIENTES_USUARIO,
-          variables: {
-            id: id,
-          },
-        });
-
-        // Reescribimos el cache ( el cache nunca se debe modificar)
-        cache.writeQuery({
-          query: OBTENER_CLIENTES_USUARIO,
-          variables: { id: id },
-          data: {
-            obtenerClientesVendedor: [
-              ...obtenerClientesVendedor,
-              actualizarCliente,
-            ],
-          },
-        });
-      },
-    }
-  );
-
-  // Schema de validacion
-  const schemaValidacion = Yup.object({
-    nombre: Yup.string().required("El nombre del cliente es obligatorio"),
-    apellido: Yup.string().required("El apellido del cliente es obligatorio"),
-    empresa: Yup.string().required("El campo empresa  es obligatorio"),
-    email: Yup.string()
-      .email("Email no válido")
-      .required("El email del cliente es obligatorio"),
-  });
+  const [actualizarCliente] = useMutation(ACTUALIZAR_CLIENTE);
 
   if (loading) return "Cargando...";
 
-  // console.log(data.obtenerCliente)
-
   const { obtenerCliente } = data;
 
-  // Modifica el cliente en la BD
   const actualizarInfoCliente = async (valores) => {
     const { nombre, apellido, empresa, email, telefono } = valores;
 
@@ -88,21 +47,32 @@ const EditarCliente = () => {
         },
       });
 
-      // console.log(data);
-
-      // Mostrar Alerta
+      
       Swal.fire(
         "Actualizado",
         "El cliente se actualizó correctamente",
         "success"
       );
 
-      // Redireccionar
+
       router.push("/");
     } catch (error) {
       console.log(error);
     }
   };
+
+  const schemaValidacion = Yup.object({
+    nombre: Yup.string().required("El nombre del cliente es obligatorio"),
+    apellido: Yup.string().required("El apellido del cliente es obligatorio"),
+    empresa: Yup.string().required("El campo empresa  es obligatorio"),
+    email: Yup.string()
+      .email("Email no válido")
+      .required("El email del cliente es obligatorio"),
+  });
+
+  
+
+ 
 
   return (
     <Layout titulo={"editando " + obtenerCliente.nombre}>
@@ -112,14 +82,13 @@ const EditarCliente = () => {
         <div className="w-full max-w-lg">
           <Formik
             validationSchema={schemaValidacion}
-            enableReinitialize
+            enableReinitialize={true}
             initialValues={obtenerCliente}
             onSubmit={(valores) => {
               actualizarInfoCliente(valores);
             }}
           >
             {(props) => {
-              // console.log(props);
               return (
                 <form
                   className="bg-white shadow-md px-8 pt-6 pb-8 mb-4"
