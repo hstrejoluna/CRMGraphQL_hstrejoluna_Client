@@ -1,10 +1,12 @@
+import React from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
+
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 
-import { useRouter } from "next/router";
-
 const Layout = ({ children, titulo }) => {
+  
   const router = useRouter();
 
   return (
