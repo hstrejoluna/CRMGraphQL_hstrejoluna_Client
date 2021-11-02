@@ -18,6 +18,8 @@ const pedidoReducer = (state, action) => {
         productos: action.payload,
       };
     case CANTIDAD_PRODUCTOS:
+      let products = state.productos;
+
       return {
         ...state,
         productos: state.productos.map((producto) =>
@@ -27,16 +29,17 @@ const pedidoReducer = (state, action) => {
         ),
       };
 
+
     case ACTUALIZAR_TOTAL:
       return {
         ...state,
-
         total: state.productos.reduce(
-          (nuevoTotal, articulo) => (
-            (nuevoTotal += articulo.precio * articulo.cantidad), 0
-          )
+          (nuevoTotal, articulo) =>
+            (nuevoTotal += articulo.precio * articulo.cantidad),
+          0
         ),
       };
+
     default:
       return state;
   }
