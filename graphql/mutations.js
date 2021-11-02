@@ -78,6 +78,14 @@ const ELIMINAR_PRODUCTO = gql`
   }
 `;
 
+const NUEVO_PEDIDOA = gql`
+  mutation nuevoPedido($input: PedidoInput) {
+    nuevoPedido(input: $input) {
+      id
+    }
+  }
+`;
+
 const NUEVO_PEDIDO = gql`
   mutation nuevoPedido($input: PedidoInput) {
     nuevoPedido(input: $input) {

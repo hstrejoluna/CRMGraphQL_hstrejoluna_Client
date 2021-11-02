@@ -1,4 +1,6 @@
 import { useContext, useState } from "react";
+import { useRouter } from 'next/router';
+import Swal from 'sweetalert2';
 
 import PedidoContext from "../context/pedidos/PedidoContext";
 
@@ -8,10 +10,15 @@ import AsignarProductos from "../components/pedidos/AsignarProductos";
 import ResumenPedido from "../components/pedidos/ResumenPedido";
 import Total from "../components/pedidos/Total";
 
+
+
 import { useMutation } from "@apollo/client";
 import { NUEVO_PEDIDO } from "../graphql/mutations";
 
 const NuevoPedido = () => {
+
+  const router = useRouter();
+
   const [mensaje, setMensaje] = useState(null);
 
   const pedidoContext = useContext(PedidoContext);
@@ -20,7 +27,7 @@ const NuevoPedido = () => {
   const [nuevoPedido] = useMutation(NUEVO_PEDIDO);
 
   const validarPedido = () => {
-    return !productos.every((producto) => producto.cantidad > 0) ||
+    return !productos.every(producto => producto.cantidad > 0) ||
       total === 0 ||
       cliente.length === 0
       ? "opacity-50 cursor-not-allowed"
@@ -31,7 +38,7 @@ const NuevoPedido = () => {
     const { id } = cliente;
 
     const pedido = productos.map(
-      ({ __typename, existencia, nombre, precio, ...producto }) => producto
+      ({ __typename, existencia, ...producto }) => producto
     );
     try {
       const { data } = await nuevoPedido({
