@@ -78,6 +78,14 @@ const ELIMINAR_PRODUCTO = gql`
   }
 `;
 
+const NUEVO_PEDIDO = gql`
+  mutation nuevoPedido($input: PedidoInput) {
+    nuevoPedido(input: $input) {
+      id
+    }
+  }
+`;
+
 export {
   AUTENTICAR_USUARIO,
   NUEVO_CLIENTE,
@@ -87,4 +95,5 @@ export {
   ACTUALIZAR_PRODUCTO,
   NUEVO_PRODUCTO,
   ELIMINAR_PRODUCTO,
+  NUEVO_PEDIDO,
 };
