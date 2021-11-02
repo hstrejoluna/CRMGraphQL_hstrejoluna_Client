@@ -11,6 +11,16 @@ import Total from "../components/pedidos/Total";
 const NuevoPedido = () => {
   // Utiliza context y extrae sus funciones y valores
   const pedidoContext = useContext(PedidoContext);
+  
+  const { cliente, productos, total } = pedidoContext;
+
+  const validarPedido = () => {
+    return !productos.every((producto) => producto.cantidad > 0) ||
+      total === 0 ||
+      cliente.length === 0
+      ? "opacity-50 cursor-not-allowed"
+      : "";
+  };
 
   return (
     <Layout titulo="Nuevo Pedido">
@@ -25,7 +35,7 @@ const NuevoPedido = () => {
 
           <button
             type="button"
-            className={`bg-gray-800 w-full mt-5 p-2 text-white uppercase font-bold hover:bg-gray-900`}
+            className={`bg-gray-800 w-full mt-5 p-2 text-white uppercase font-bold hover:bg-gray-900 ${validarPedido()}`}
           >
             Registrar Pedido
           </button>
