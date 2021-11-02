@@ -12,12 +12,14 @@ const ProductoResumen = ({ producto }) => {
 
   useEffect(() => {
     actualizarCantidad();
+    actualizarTotal();
   }, [cantidad]);
 
   const actualizarCantidad = () => {
-    const nuevoProducto = { ...producto, cantidad: Number(cantidad) };
+    const nuevoProducto = {...producto, cantidad: Number(cantidad) };
+    console.log("NUEVOPRODUCTO: "+nuevoProducto);
     cantidadProductos(nuevoProducto);
-    actualizarTotal();
+    
   };
 
   const { nombre, precio } = producto;
@@ -31,7 +33,7 @@ const ProductoResumen = ({ producto }) => {
 
       <input
         type="number"
-        value={cantidad}
+        value={cantidad}   
         placeholder="Cantidad"
         className="shadow apperance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline md:ml-4"
         onChange={(e) => setCantidad(e.target.value)}

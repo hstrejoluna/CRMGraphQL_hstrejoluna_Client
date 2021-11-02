@@ -10,44 +10,39 @@ import {
 } from "../../types";
 
 const PedidoState = ({ children }) => {
+  // state de pedidos
   const initialState = {
     cliente: {},
     productos: [],
-    total: 0,
+    total: 20,
   };
 
   const [state, dispatch] = useReducer(PedidoReducer, initialState);
 
-  /**
-   * Modificar el cliente (Objeto cliente en el state)
-   * @param {JSON} cliente
-   */
-  // Modificar el Cliente
+
+  console.log("state total es:"+state.total)
+  //modifica el cliente
+
   const agregarCliente = (cliente) => {
+    // console.log(cliente);
+
     dispatch({
       type: SELECCIONAR_CLIENTE,
       payload: cliente,
     });
   };
 
-  /**
-   * Modificar productos (Array productos en el state)
-   * @param {Array} productosSeleccionados
-   */
-
-  // Modifica los productos
+  // modifica los productos
   const agregarProducto = (productosSeleccionados) => {
     let nuevoState;
-    // Tomar del segundo arreglo una copia para asignarlo al primero
-    if (state.productos && state.productos.length > 0) {
-      if (productosSeleccionados) {
-        nuevoState = productosSeleccionados.map((producto) => {
-          const nuevoObjeto = state.productos.find(
-            (productoState) => productoState.id === producto.id
-          );
-          return { ...producto, ...nuevoObjeto };
-        });
-      }
+    if (state.productos.length > 0) {
+      //tomar del segundo arreglo, una copia para asignarlo al primero
+      nuevoState = productosSeleccionados.map((producto) => {
+        const nuevoObjeto = state.productos.find(
+          (productoState) => productoState.id === producto.id
+        );
+        return { ...producto, ...nuevoObjeto };
+      });
     } else {
       nuevoState = productosSeleccionados;
     }
@@ -57,18 +52,17 @@ const PedidoState = ({ children }) => {
       payload: nuevoState,
     });
   };
-  /**
-   *
-   * @param {JSON} nuevoProducto
-   */
 
+  // modifica las cantidades de los productos
   const cantidadProductos = (nuevoProducto) => {
+    
     dispatch({
       type: CANTIDAD_PRODUCTOS,
       payload: nuevoProducto,
     });
   };
 
+  //funcion para actualizar los precios totales
   const actualizarTotal = () => {
     dispatch({
       type: ACTUALIZAR_TOTAL,
@@ -78,15 +72,16 @@ const PedidoState = ({ children }) => {
   return (
     <PedidoContext.Provider
       value={{
+        cliente: state.cliente,
         productos: state.productos,
+        total: state.total,
         agregarCliente,
         agregarProducto,
         cantidadProductos,
         actualizarTotal,
-        total: state.total,
-        cliente: state.cliente,
       }}
     >
+      {" "}
       {children}
     </PedidoContext.Provider>
   );

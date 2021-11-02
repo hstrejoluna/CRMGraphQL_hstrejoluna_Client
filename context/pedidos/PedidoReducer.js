@@ -32,10 +32,9 @@ const pedidoReducer = (state, action) => {
         ...state,
 
         total: state.productos.reduce(
-          (nuevoTotal, producto) => (
-            nuevoTotal += producto.precio * producto.cantidad, 0
-          ),
-          console.log("ESTATE PRODUCTOS ESSSSSSSSSSSS: " + state.productos)
+          (nuevoTotal, articulo) => (
+            (nuevoTotal += articulo.precio * articulo.cantidad), 0
+          )
         ),
       };
     default:

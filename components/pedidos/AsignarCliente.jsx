@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Select from "react-select";
 import { useQuery } from "@apollo/client";
 
@@ -7,7 +7,7 @@ import PedidoContext from "../../context/pedidos/PedidoContext";
 import { OBTENER_CLIENTES_USUARIO } from "../../graphql/queries";
 
 const AsignarCliente = () => {
-  const [cliente, setCliente] = useState({});
+  const [cliente, setCliente] = useState([]);
 
   const pedidoContext = useContext(PedidoContext);
   const { agregarCliente } = pedidoContext;
