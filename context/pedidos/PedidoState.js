@@ -14,7 +14,7 @@ const PedidoState = ({ children }) => {
   const initialState = {
     cliente: {},
     productos: [],
-    total: 20,
+    total: 0,
   };
 
   const [state, dispatch] = useReducer(PedidoReducer, initialState);
